@@ -40,7 +40,10 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="font-serif text-5xl font-bold tracking-tight text-charcoal">Trybe</div>
           <button
-            onClick={() => setShowLogin(true)}
+            onClick={() => {
+              setShowLogin(true);
+              analytics.trackEvent('login_modal_open', { source: 'header' });
+            }}
             className="px-5 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-sm text-xs font-bold uppercase tracking-wider text-charcoal hover:bg-white hover:shadow-md transition-all"
           >
             Members Login

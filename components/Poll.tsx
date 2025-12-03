@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { analytics } from '../services/analytics';
 
 const Poll: React.FC = () => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -6,6 +7,7 @@ const Poll: React.FC = () => {
 
   const handleVote = (score: number) => {
     setSelected(score);
+    analytics.trackEvent('poll_vote', { score });
     // Simulate submission delay for UX
     setTimeout(() => {
       setSubmitted(true);
@@ -35,8 +37,8 @@ const Poll: React.FC = () => {
                   onClick={() => handleVote(opt.value)}
                   className={`
                     px-4 py-3 sm:py-4 rounded-lg border transition-all duration-200
-                    ${selected === opt.value 
-                      ? 'bg-carmine text-white border-carmine transform scale-105' 
+                    ${selected === opt.value
+                      ? 'bg-carmine text-white border-carmine transform scale-105'
                       : 'bg-white border-stone-200 text-stone-600 hover:border-carmine/30 hover:bg-red-50'
                     }
                   `}
