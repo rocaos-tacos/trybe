@@ -9,11 +9,14 @@ import DemoEarnRewards from './components/DemoEarnRewards';
 import AdminDashboard from './components/AdminDashboard';
 import FeatureCard from './components/FeatureCard';
 import LoginModal from './components/LoginModal';
+import EmailModal from './components/EmailModal';
 import { analytics } from './services/analytics';
 
 const App: React.FC = () => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [activeFeature, setActiveFeature] = useState('');
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -42,10 +45,17 @@ const App: React.FC = () => {
   // Animation thresholds
   const isScrolled = scrollY > 50;
 
+  const handleCtaClick = (feature: string) => {
+    setActiveFeature(feature);
+    setShowEmailModal(true);
+    analytics.trackEvent('cta_click', { feature });
+  };
+
   return (
     <div className="min-h-screen bg-ivory text-charcoal overflow-x-hidden selection:bg-carmine/20">
       {showAdmin && <AdminDashboard onClose={() => setShowAdmin(false)} />}
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+      {showEmailModal && <EmailModal onClose={() => setShowEmailModal(false)} featureId={activeFeature} />}
 
       {/* HEADER */}
       <header className={`absolute top-0 left-0 w-full z-50 px-6 py-6 md:py-8 transition-all duration-500 ${isScrolled ? 'py-4 bg-white/80 backdrop-blur-md shadow-sm' : ''}`}>
@@ -162,7 +172,12 @@ const App: React.FC = () => {
             </p>
 
             <div className="pt-2 flex justify-center lg:justify-start">
-              <EmailSignup id="hero-email" />
+              <button
+                onClick={() => handleCtaClick('hero')}
+                className="px-8 py-4 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2 text-lg"
+              >
+                Get Early Access <ArrowRight size={20} />
+              </button>
             </div>
           </div>
 
@@ -271,7 +286,12 @@ const App: React.FC = () => {
             </ul>
 
             <div className="pt-8">
-              <EmailSignup id="solution-email" minimal={true} />
+              <button
+                onClick={() => handleCtaClick('solution_summary')}
+                className="px-8 py-3 rounded-full border-2 border-charcoal text-charcoal font-bold hover:bg-charcoal hover:text-white transition-all flex items-center gap-2"
+              >
+                Stay Updated <ArrowRight size={18} />
+              </button>
             </div>
           </div>
 
@@ -339,7 +359,12 @@ const App: React.FC = () => {
               And if a piece doesn’t feel right, Trybe instantly guides you to the next best stop — the stores most likely to get you the fit you’re looking for.
             </p>
             <div className="pt-2">
-              <EmailSignup id="paths-email" />
+              <button
+                onClick={() => handleCtaClick('smart_routes')}
+                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
+              >
+                Join Waitlist <ArrowRight size={18} />
+              </button>
             </div>
           </div>
         </div>
@@ -356,7 +381,12 @@ const App: React.FC = () => {
               Fit Check gives you clarity in the moment you need it most: discreet, fast, and free from pressure. Just real guidance from your style community, when the mirror isn’t enough.
             </p>
             <div className="pt-2">
-              <EmailSignup id="fit-check-email" />
+              <button
+                onClick={() => handleCtaClick('fit_check')}
+                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
+              >
+                Join Waitlist <ArrowRight size={18} />
+              </button>
             </div>
           </div>
           <div className="flex justify-center">
@@ -379,7 +409,12 @@ const App: React.FC = () => {
               Share a moment, compare options, walk a few steps together. It’s subtle company, effortless chemistry, and a sense of belonging built around taste, not obligation.
             </p>
             <div className="pt-2">
-              <EmailSignup id="trybe-email" />
+              <button
+                onClick={() => handleCtaClick('build_trybe')}
+                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
+              >
+                Join Waitlist <ArrowRight size={18} />
+              </button>
             </div>
           </div>
         </div>
@@ -396,7 +431,12 @@ const App: React.FC = () => {
               As you grow, unlock tasteful perks like priority routing, seasonal badges, small retailer discounts, or occasional gift-card raffles. A light, elegant reward system that makes shopping feel even better.
             </p>
             <div className="pt-2">
-              <EmailSignup id="earn-email" />
+              <button
+                onClick={() => handleCtaClick('earn_rewards')}
+                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
+              >
+                Join Waitlist <ArrowRight size={18} />
+              </button>
             </div>
           </div>
           <div className="flex justify-center">
@@ -414,8 +454,13 @@ const App: React.FC = () => {
 
           <div className="space-y-6">
             <h2 className="text-4xl md:text-6xl font-serif">Ready to shop with clarity?</h2>
-            <div className="max-w-md mx-auto pt-6">
-              <EmailSignup id="footer-email" />
+            <div className="max-w-md mx-auto pt-6 flex justify-center">
+              <button
+                onClick={() => handleCtaClick('footer')}
+                className="px-8 py-4 rounded-full bg-white text-charcoal font-bold hover:bg-stone-100 transition-colors shadow-lg flex items-center gap-2"
+              >
+                Stay Updated <ArrowRight size={20} />
+              </button>
             </div>
           </div>
 
@@ -442,3 +487,4 @@ const App: React.FC = () => {
   );
 };
 
+export default App;
