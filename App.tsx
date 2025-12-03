@@ -14,6 +14,15 @@ import { analytics } from './services/analytics';
 const App: React.FC = () => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Secret key combo: Ctrl + Shift + A
@@ -30,13 +39,16 @@ const App: React.FC = () => {
     analytics.trackEvent('explore_click', { feature });
   };
 
+  // Animation thresholds
+  const isScrolled = scrollY > 50;
+
   return (
     <div className="min-h-screen bg-ivory text-charcoal overflow-x-hidden selection:bg-carmine/20">
       {showAdmin && <AdminDashboard onClose={() => setShowAdmin(false)} />}
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
 
       {/* HEADER */}
-      <header className="absolute top-0 left-0 w-full z-50 px-6 py-6 md:py-8">
+      <header className={`absolute top-0 left-0 w-full z-50 px-6 py-6 md:py-8 transition-all duration-500 ${isScrolled ? 'py-4 bg-white/80 backdrop-blur-md shadow-sm' : ''}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="font-serif text-5xl font-bold tracking-tight text-charcoal">Trybe</div>
           <button
@@ -75,17 +87,23 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-[280px] aspect-square lg:max-w-md">
 
                 {/* Card 1: Route Notification */}
-                <div className="absolute top-1/4 left-4 lg:-left-10 bg-white p-4 shadow-xl shadow-stone-200/50 rounded-xl border border-stone-100 max-w-[160px] lg:max-w-[190px] transform -rotate-6 animate-float z-20">
-                  <div className="flex items-center gap-3 mb-3 border-b border-stone-100 pb-2">
-                    <div className="w-8 h-8 rounded-full bg-carmine/10 flex items-center justify-center">
+                <div
+                  className={`absolute top-1/4 left-4 lg:-left-10 bg-white shadow-xl shadow-stone-200/50 rounded-xl border border-stone-100 transform -rotate-6 z-20 transition-all duration-700 ease-out origin-top-left
+                    ${isScrolled
+                      ? 'p-4 max-w-[160px] lg:max-w-[180px] opacity-100 scale-100'
+                      : 'p-3 max-w-[120px] lg:max-w-[140px] opacity-90 scale-95'
+                    }`}
+                >
+                  <div className={`flex items-center gap-3 ${isScrolled ? 'mb-3 border-b border-stone-100 pb-2' : 'mb-0 border-none pb-0'}`}>
+                    <div className="w-8 h-8 rounded-full bg-carmine/10 flex items-center justify-center shrink-0">
                       <Navigation size={14} className="text-carmine" />
                     </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wide">Route Found</p>
-                      <p className="text-xs font-bold text-charcoal">Hidden Gem</p>
+                    <div className={`transition-all duration-500 ${isScrolled ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}`}>
+                      <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wide whitespace-nowrap">Route Found</p>
+                      <p className="text-xs font-bold text-charcoal whitespace-nowrap">Hidden Gem</p>
                     </div>
                   </div>
-                  <div className="space-y-1.5">
+                  <div className={`space-y-1.5 overflow-hidden transition-all duration-500 ${isScrolled ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="flex items-center gap-2 text-[10px] text-stone-600">
                       <MapPin size={12} className="text-stone-400" />
                       <span>SoHo • 5 min away</span>
@@ -98,8 +116,14 @@ const App: React.FC = () => {
                 </div>
 
                 {/* Card 2: Fit Check Result */}
-                <div className="absolute bottom-1/4 right-4 lg:right-0 bg-white p-3 shadow-xl shadow-stone-200/50 rounded-xl border border-stone-100 max-w-[150px] lg:max-w-[180px] transform rotate-3 animate-float-delayed z-20">
-                  <div className="relative mb-3 rounded-lg overflow-hidden h-24 bg-stone-100">
+                <div
+                  className={`absolute bottom-1/4 right-4 lg:right-0 bg-white shadow-xl shadow-stone-200/50 rounded-xl border border-stone-100 transform rotate-3 z-20 transition-all duration-700 ease-out delay-100 origin-bottom-right
+                    ${isScrolled
+                      ? 'p-3 max-w-[150px] lg:max-w-[170px] opacity-100 scale-100'
+                      : 'p-2 max-w-[100px] lg:max-w-[120px] opacity-90 scale-95'
+                    }`}
+                >
+                  <div className={`relative rounded-lg overflow-hidden bg-stone-100 transition-all duration-500 ${isScrolled ? 'h-24 mb-3' : 'h-16 mb-0'}`}>
                     <img
                       src="/TrybeSelfieHero.png"
                       alt="Outfit"
@@ -109,7 +133,7 @@ const App: React.FC = () => {
                       <Heart size={10} className="fill-carmine text-carmine" />
                     </div>
                   </div>
-                  <div>
+                  <div className={`overflow-hidden transition-all duration-500 ${isScrolled ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <p className="text-xs font-serif italic text-charcoal mb-1 leading-tight">"This silhouette is perfect on you!"</p>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="flex -space-x-1.5">
