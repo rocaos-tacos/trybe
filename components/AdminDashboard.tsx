@@ -10,8 +10,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const [stats, setStats] = useState<any>(null);
     const [activeTab, setActiveTab] = useState<'overview' | 'emails' | 'events'>('overview');
 
-    const loadStats = () => {
-        setStats(analytics.getStats());
+    const loadStats = async () => {
+        const data = await analytics.getStats();
+        setStats(data);
     };
 
     useEffect(() => {

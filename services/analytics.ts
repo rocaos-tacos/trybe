@@ -1,3 +1,6 @@
+import { db } from './firebase';
+import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
+
 export interface AnalyticsEvent {
     name: string;
     timestamp: number;
@@ -10,49 +13,42 @@ export interface EmailEntry {
     timestamp: number;
 }
 
-const STORAGE_KEYS = {
-    EVENTS: 'trybe_analytics_events',
-    EMAILS: 'trybe_analytics_emails',
-};
-
 export const analytics = {
-    trackEvent: (name: string, data?: any) => {
+    trackEvent: async (name: string, data?: any) => {
         try {
-            const events: AnalyticsEvent[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.EVENTS) || '[]');
-            events.push({
+            await addDoc(collection(db, 'events'), {
                 name,
                 timestamp: Date.now(),
-                data,
+                data: data || {}
             });
-            localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(events));
             console.log(`[Analytics] Event tracked: ${name}`, data);
         } catch (e) {
             console.error('Failed to track event', e);
         }
     },
 
-    saveEmail: (email: string, source: string) => {
+    saveEmail: async (email: string, source: string) => {
         try {
-            const emails: EmailEntry[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.EMAILS) || '[]');
-            // Prevent duplicates
-            if (!emails.some(e => e.email === email)) {
-                emails.push({
-                    email,
-                    source,
-                    timestamp: Date.now(),
-                });
-                localStorage.setItem(STORAGE_KEYS.EMAILS, JSON.stringify(emails));
-                console.log(`[Analytics] Email saved: ${email} from ${source}`);
-            }
+            await addDoc(collection(db, 'emails'), {
+                email,
+                source,
+                timestamp: Date.now()
+            });
+            console.log(`[Analytics] Email saved: ${email} from ${source}`);
         } catch (e) {
             console.error('Failed to save email', e);
         }
     },
 
-    getStats: () => {
+    getStats: async () => {
         try {
-            const events: AnalyticsEvent[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.EVENTS) || '[]');
-            const emails: EmailEntry[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.EMAILS) || '[]');
+            // Fetch Emails
+            const emailsSnapshot = await getDocs(query(collection(db, 'emails'), orderBy('timestamp', 'desc')));
+            const emails = emailsSnapshot.docs.map(doc => doc.data() as EmailEntry);
+
+            // Fetch Recent Events (limit to last 100 to save reads)
+            const eventsSnapshot = await getDocs(query(collection(db, 'events'), orderBy('timestamp', 'desc'), limit(100)));
+            const events = eventsSnapshot.docs.map(doc => doc.data() as AnalyticsEvent);
 
             const eventCounts = events.reduce((acc, event) => {
                 acc[event.name] = (acc[event.name] || 0) + 1;
@@ -60,19 +56,20 @@ export const analytics = {
             }, {} as Record<string, number>);
 
             return {
-                totalEvents: events.length,
+                totalEvents: events.length, // Note: This is only of the fetched subset
                 totalEmails: emails.length,
                 eventCounts,
-                emails, // Return full list for admin
-                events: events.slice(-50).reverse() // Return last 50 events
+                emails,
+                events
             };
         } catch (e) {
+            console.error('Failed to get stats', e);
             return { totalEvents: 0, totalEmails: 0, eventCounts: {}, emails: [], events: [] };
         }
     },
 
-    clearData: () => {
-        localStorage.removeItem(STORAGE_KEYS.EVENTS);
-        localStorage.removeItem(STORAGE_KEYS.EMAILS);
+    clearData: async () => {
+        console.warn('Clear data not implemented for Firestore to prevent accidental deletion.');
     }
 };
+
