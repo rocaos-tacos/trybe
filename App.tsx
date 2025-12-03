@@ -185,7 +185,7 @@ const App: React.FC = () => {
             <FeatureCard
               id="fit-check"
               icon={Smile}
-              title="Find your Fit"
+              title="Find Your Fit"
               description="Instant, anonymous feedback on your look."
               onClick={() => {
                 document.getElementById('fit-check')?.scrollIntoView({ behavior: 'smooth' });
@@ -197,7 +197,7 @@ const App: React.FC = () => {
             <FeatureCard
               id="smart-routes"
               icon={MapPin}
-              title="Plan your Route"
+              title="Plan Your Route"
               description="Curated shopping paths for your style."
               onClick={() => {
                 document.getElementById('smart-routes')?.scrollIntoView({ behavior: 'smooth' });
@@ -209,7 +209,7 @@ const App: React.FC = () => {
             <FeatureCard
               id="build-trybe"
               icon={Users}
-              title="Build your Trybe"
+              title="Build Your Trybe"
               description="Honest advice from real, compatible peers."
               onClick={() => {
                 document.getElementById('build-trybe')?.scrollIntoView({ behavior: 'smooth' });
@@ -221,7 +221,7 @@ const App: React.FC = () => {
             <FeatureCard
               id="earn-rewards"
               icon={Gem}
-              title="Treat yourself"
+              title="Treat Yourself"
               description="Unlock exclusive perks as you shop."
               onClick={() => {
                 document.getElementById('earn-rewards')?.scrollIntoView({ behavior: 'smooth' });
@@ -246,7 +246,7 @@ const App: React.FC = () => {
                   <Navigation size={18} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-2xl mb-2">Plan your Route</h4>
+                  <h4 className="font-bold text-2xl mb-2">Plan Your Route</h4>
                   <p className="text-stone-600 text-lg font-light leading-relaxed">Custom paths to stores that match your style and budget.</p>
                 </div>
               </li>
@@ -255,7 +255,7 @@ const App: React.FC = () => {
                   <Heart size={18} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-2xl mb-2">Find your Fit</h4>
+                  <h4 className="font-bold text-2xl mb-2">Find Your Fit</h4>
                   <p className="text-stone-600 text-lg font-light leading-relaxed">Instant feedback from people who share your body type and taste.</p>
                 </div>
               </li>
@@ -264,7 +264,7 @@ const App: React.FC = () => {
                   <Users size={18} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-2xl mb-2">Build your Trybe</h4>
+                  <h4 className="font-bold text-2xl mb-2">Build Your Trybe</h4>
                   <p className="text-stone-600 text-lg font-light leading-relaxed">Optional meetups with compatible shoppers for a quick second opinion.</p>
                 </div>
               </li>
@@ -442,4 +442,3 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
