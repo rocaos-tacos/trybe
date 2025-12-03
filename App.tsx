@@ -127,7 +127,7 @@ const App: React.FC = () => {
           {/* Mobile: Pushed down to overlap image, Desktop: Grid col 1 */}
           <div className="relative z-10 pt-[50vh] px-6 lg:pt-0 lg:px-0 lg:order-1 space-y-6 lg:space-y-8 animate-fade-in-up text-center lg:text-left">
             <h1 className="text-5xl md:text-7xl font-serif leading-[1.0] tracking-tight text-charcoal">
-              Find clothes that <span className="italic text-carmine">fit</span>, faster. (Verified)
+              Find clothes that <span className="italic text-carmine">fit</span>, faster.
             </h1>
             <p className="text-lg md:text-xl text-stone-600 font-light max-w-lg mx-auto lg:mx-0 leading-relaxed">
               Your personal shopping enhancer that leads you to the right fit, and the right people.
