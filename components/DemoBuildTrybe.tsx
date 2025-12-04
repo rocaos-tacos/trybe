@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, X, MessageCircle, MapPin, RefreshCw, Sparkles, Navigation } from 'lucide-react';
+import { User, Users, X, MessageCircle, MapPin, RefreshCw, Sparkles, Navigation } from 'lucide-react';
 import PhoneMockup from './PhoneMockup';
 import CityMapBackground from './CityMapBackground';
 
@@ -60,7 +60,7 @@ const matches: Match[] = [
 ];
 
 const DemoBuildTrybe: React.FC = () => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(-1);
     const [radarAngle, setRadarAngle] = useState(0);
     const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
 
@@ -88,7 +88,7 @@ const DemoBuildTrybe: React.FC = () => {
     };
 
     const reset = () => {
-        setStep(0);
+        setStep(-1);
         setSelectedMatch(null);
     }
 
@@ -99,12 +99,28 @@ const DemoBuildTrybe: React.FC = () => {
                 {/* Map Background Layer */}
                 <CityMapBackground />
 
+                {/* Initial Start Screen Overlay */}
+                {step === -1 && (
+                    <div className="absolute inset-0 z-40 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+                        <div className="w-16 h-16 bg-carmine rounded-full flex items-center justify-center mb-6 shadow-xl shadow-carmine/20 animate-bounce-slow">
+                            <Users size={32} className="text-white" />
+                        </div>
+                        <h3 className="font-serif text-2xl text-charcoal mb-2">Build Your Trybe</h3>
+                        <p className="text-sm text-stone-600 mb-8 max-w-[200px]">Find compatible shoppers nearby to share the journey.</p>
+                        <button
+                            onClick={() => setStep(0)}
+                            className="bg-charcoal text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-black transition-all transform hover:scale-105 active:scale-95"
+                        >
+                            Find a Partner
+                        </button>
+                    </div>
+                )}
+
                 {/* Central User Node */}
                 <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-1000 ${step === 2 ? 'top-[60%]' : ''}`}>
                     <div className="relative">
-                        {/* Radar Sweep Effect */}
                         {step === 0 && (
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full overflow-hidden opacity-30 pointer-events-none">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full overflow-hidden opacity-30 pointer-events-none">
                                 <div
                                     className="w-full h-full"
                                     style={{
@@ -117,8 +133,8 @@ const DemoBuildTrybe: React.FC = () => {
                         )}
 
                         {/* User Avatar */}
-                        <div className="w-12 h-12 bg-charcoal rounded-full border-[3px] border-white shadow-xl flex items-center justify-center relative z-20">
-                            <span className="font-bold text-white text-xs">YOU</span>
+                        <div className="w-10 h-10 bg-charcoal rounded-full border-[3px] border-white shadow-xl flex items-center justify-center relative z-20">
+                            <span className="font-bold text-white text-[10px]">YOU</span>
                         </div>
 
                         {/* Pulse Rings */}
@@ -135,14 +151,14 @@ const DemoBuildTrybe: React.FC = () => {
                     <div
                         key={match.id}
                         className={`absolute transition-all duration-1000 z-20 ${step === 0 ? 'opacity-0 scale-50' :
-                                step === 1 ? 'opacity-100 scale-100' :
-                                    selectedMatch?.id === match.id ? 'top-[55%] left-[55%] opacity-100 scale-100' : 'opacity-0 scale-50'
+                            step === 1 ? 'opacity-100 scale-100' :
+                                selectedMatch?.id === match.id ? 'top-[55%] left-[55%] opacity-100 scale-100' : 'opacity-0 scale-50'
                             }`}
                         style={step <= 1 ? match.pos : {}}
                     >
                         <div className="relative group cursor-pointer">
-                            <div className={`w-10 h-10 bg-white rounded-full border-2 ${match.color} shadow-xl flex items-center justify-center animate-bounce-slow`}>
-                                <span className={`font-serif font-bold ${match.color.split(' ')[0]}`}>{match.initial}</span>
+                            <div className={`w-8 h-8 bg-white rounded-full border-2 ${match.color} shadow-xl flex items-center justify-center animate-bounce-slow`}>
+                                <span className={`font-serif font-bold text-xs ${match.color.split(' ')[0]}`}>{match.initial}</span>
                             </div>
                             {step === 1 && (
                                 <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-charcoal text-white text-[9px] px-2 py-1 rounded-lg whitespace-nowrap shadow-md flex items-center gap-1 z-30">
@@ -171,29 +187,31 @@ const DemoBuildTrybe: React.FC = () => {
                 <div className="relative z-30 h-full flex flex-col pointer-events-none">
 
                     {/* Header Status */}
-                    <div className="p-4 pt-6 text-center pointer-events-auto bg-gradient-to-b from-white/90 to-transparent">
-                        <h3 className="font-serif text-2xl text-charcoal transition-all duration-500">
-                            {step === 0 ? 'Scanning nearby...' : step === 1 ? 'Shoppers Found!' : 'Walking Together'}
-                        </h3>
-                        <p className="text-xs text-stone-600 font-medium transition-all duration-500">
-                            {step === 0 ? 'Looking for style twins in SoHo' : step === 1 ? 'Swipe to see matches' : `Heading to Arket with ${selectedMatch?.name}`}
-                        </p>
-                    </div>
+                    {step >= 0 && (
+                        <div className="p-4 pt-6 text-center pointer-events-auto bg-gradient-to-b from-white/90 to-transparent">
+                            <h3 className="font-serif text-xl text-charcoal transition-all duration-500">
+                                {step === 0 ? 'Scanning nearby...' : step === 1 ? 'Shoppers Found!' : 'Walking Together'}
+                            </h3>
+                            <p className="text-[10px] text-stone-600 font-medium transition-all duration-500">
+                                {step === 0 ? 'Looking for style twins in SoHo' : step === 1 ? 'Swipe to see matches' : `Heading to Arket with ${selectedMatch?.name}`}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Match Cards Slider (Step 1) */}
                     {step === 1 && (
                         <div className="mt-auto mb-12 w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide pointer-events-auto pb-4 px-4 flex gap-4">
                             {matches.map((match) => (
                                 <div key={match.id} className="snap-center shrink-0 w-[85%] bg-white rounded-2xl shadow-[0_5px_20px_rgba(0,0,0,0.08)] border border-stone-100 p-5 animate-fade-in-up">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex gap-3">
-                                            <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center font-serif text-xl text-stone-600">{match.initial}</div>
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex gap-2">
+                                            <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-serif text-lg text-stone-600">{match.initial}</div>
                                             <div>
-                                                <h4 className="font-bold text-charcoal text-base">{match.name}</h4>
-                                                <p className="text-[10px] text-stone-500">{match.looking} • {match.distance}</p>
+                                                <h4 className="font-bold text-charcoal text-sm">{match.name}</h4>
+                                                <p className="text-[9px] text-stone-500">{match.looking} • {match.distance}</p>
                                             </div>
                                         </div>
-                                        <div className={`text-[9px] font-bold px-2 py-1 rounded-full border ${match.matchColor}`}>
+                                        <div className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border ${match.matchColor}`}>
                                             {match.matchLabel}
                                         </div>
                                     </div>
@@ -208,8 +226,8 @@ const DemoBuildTrybe: React.FC = () => {
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <button onClick={() => handleWalkTogether(match)} className="flex-1 bg-carmine text-white py-3 rounded-xl font-bold text-xs shadow-lg shadow-carmine/20 hover:bg-[#7a0013] transition-colors flex items-center justify-center gap-2">
-                                            <Navigation size={14} /> Walk together
+                                        <button onClick={() => handleWalkTogether(match)} className="flex-1 bg-carmine text-white py-2.5 rounded-xl font-bold text-[10px] shadow-lg shadow-carmine/20 hover:bg-[#7a0013] transition-colors flex items-center justify-center gap-2">
+                                            <Navigation size={12} /> Walk together
                                         </button>
                                     </div>
                                 </div>

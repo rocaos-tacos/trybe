@@ -108,8 +108,8 @@ const DemoSmartRoutes: React.FC = () => {
 
         {/* Step 0: Input */}
         {step === 0 && (
-          <div className="p-6 flex flex-col h-full animate-fade-in relative z-10">
-            <h3 className="font-serif text-2xl text-charcoal mb-4 mt-2">Where to today?</h3>
+          <div className="p-5 flex flex-col h-full animate-fade-in relative z-10">
+            <h3 className="font-serif text-xl text-charcoal mb-3 mt-1">Where to today?</h3>
 
             <div className="space-y-5">
               <div>
@@ -119,7 +119,7 @@ const DemoSmartRoutes: React.FC = () => {
                     <button
                       key={cat}
                       onClick={() => setCategory(cat)}
-                      className={`px-3 py-2 rounded-full text-xs shadow-sm transition-all duration-200 ${category === cat
+                      className={`px-2.5 py-1.5 rounded-full text-[10px] shadow-sm transition-all duration-200 ${category === cat
                         ? 'bg-charcoal text-white shadow-md transform scale-105'
                         : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
                         }`}
@@ -137,7 +137,7 @@ const DemoSmartRoutes: React.FC = () => {
                     <button
                       key={t}
                       onClick={() => setTimeFrame(t)}
-                      className={`flex-1 py-2 rounded-lg text-xs transition-all duration-200 ${timeFrame === t
+                      className={`flex-1 py-1.5 rounded-lg text-[10px] transition-all duration-200 ${timeFrame === t
                         ? 'bg-carmine/5 border border-carmine text-carmine font-bold shadow-sm'
                         : 'border border-stone-200 text-stone-500 bg-white hover:bg-stone-50'
                         }`}
@@ -183,7 +183,7 @@ const DemoSmartRoutes: React.FC = () => {
               </div>
             </div>
 
-            <button onClick={handleStart} className="mt-auto mb-10 w-full py-3.5 bg-carmine text-white rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-carmine/20 hover:bg-red-800 transition-colors">
+            <button onClick={handleStart} className="mt-auto mb-8 w-full py-3 bg-carmine text-white rounded-xl font-bold text-xs tracking-wide shadow-lg shadow-carmine/20 hover:bg-red-800 transition-colors">
               Find My Route
             </button>
           </div>
@@ -323,9 +323,9 @@ const DemoSmartRoutes: React.FC = () => {
                       {selectedRouteId === route.id && (
                         <button
                           onClick={(e) => { e.stopPropagation(); handleBeginJourney(); }}
-                          className="w-full py-2.5 bg-carmine text-white rounded-xl text-xs font-bold shadow-md shadow-carmine/20 hover:bg-[#7a0013] transition-colors flex items-center justify-center gap-2"
+                          className="w-full py-2 bg-carmine text-white rounded-lg text-[10px] font-bold shadow-md shadow-carmine/20 hover:bg-[#7a0013] transition-colors flex items-center justify-center gap-2"
                         >
-                          <Navigation size={12} /> Start Route
+                          <Navigation size={10} /> Start Route
                         </button>
                       )}
                     </div>

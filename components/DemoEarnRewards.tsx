@@ -59,7 +59,7 @@ const DemoEarnRewards: React.FC = () => {
             <div className="h-full bg-ivory flex flex-col overflow-hidden relative font-sans">
 
                 {/* Header Dashboard */}
-                <div className="bg-charcoal text-ivory p-5 pt-8 pb-10 rounded-b-[2rem] relative z-10 shadow-xl flex-shrink-0 overflow-hidden">
+                <div className="bg-charcoal text-ivory p-4 pt-6 pb-8 rounded-b-[2rem] relative z-10 shadow-xl flex-shrink-0 overflow-hidden">
                     {/* Background Pattern */}
                     <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
@@ -73,14 +73,14 @@ const DemoEarnRewards: React.FC = () => {
                         </div>
 
                         {/* Circular Progress */}
-                        <div className="relative w-16 h-16 flex items-center justify-center">
+                        <div className="relative w-14 h-14 flex items-center justify-center">
                             <svg className="w-full h-full -rotate-90">
-                                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-white/10" />
-                                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-carmine transition-all duration-1000 ease-out" strokeDasharray="175" strokeDashoffset={175 - (175 * (points / 1000))} strokeLinecap="round" />
+                                <circle cx="28" cy="28" r="24" stroke="currentColor" strokeWidth="3" fill="transparent" className="text-white/10" />
+                                <circle cx="28" cy="28" r="24" stroke="currentColor" strokeWidth="3" fill="transparent" className="text-carmine transition-all duration-1000 ease-out" strokeDasharray="150" strokeDashoffset={150 - (150 * (points / 1000))} strokeLinecap="round" />
                             </svg>
                             <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <span className="text-sm font-bold">{points}</span>
-                                <span className="text-[7px] text-stone-400 uppercase tracking-wider">PTS</span>
+                                <span className="text-xs font-bold">{points}</span>
+                                <span className="text-[6px] text-stone-400 uppercase tracking-wider">PTS</span>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ const DemoEarnRewards: React.FC = () => {
                         {rewards.map((reward, idx) => (
                             <div
                                 key={reward.id}
-                                className={`snap-center shrink-0 w-[85%] h-[280px] rounded-2xl p-5 flex flex-col justify-between shadow-lg transition-all duration-300 relative overflow-hidden ${reward.color} ${reward.status === 'locked' ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                                className={`snap-center shrink-0 w-[85%] h-[240px] rounded-2xl p-4 flex flex-col justify-between shadow-lg transition-all duration-300 relative overflow-hidden ${reward.color} ${reward.status === 'locked' ? 'opacity-60 grayscale-[0.5]' : ''}`}
                             >
                                 {reward.status === 'locked' && (
                                     <div className="absolute top-3 right-3 bg-stone-200/50 p-1.5 rounded-full backdrop-blur-sm">
@@ -121,8 +121,8 @@ const DemoEarnRewards: React.FC = () => {
                                     <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-3 backdrop-blur-md border border-white/20 shadow-inner">
                                         {reward.icon}
                                     </div>
-                                    <h3 className="font-serif text-lg mb-1 leading-tight">{reward.title}</h3>
-                                    <p className={`text-[10px] leading-relaxed ${reward.id === 1 ? 'text-stone-300' : 'text-stone-500'}`}>{reward.desc}</p>
+                                    <h3 className="font-serif text-base mb-1 leading-tight">{reward.title}</h3>
+                                    <p className={`text-[9px] leading-relaxed ${reward.id === 1 ? 'text-stone-300' : 'text-stone-500'}`}>{reward.desc}</p>
                                 </div>
 
                                 <div>
@@ -142,9 +142,9 @@ const DemoEarnRewards: React.FC = () => {
                                     ) : (
                                         <button
                                             onClick={handleClaim}
-                                            className="w-full py-2.5 bg-carmine text-white rounded-lg font-bold text-xs shadow-md shadow-carmine/30 hover:bg-[#960018] active:scale-95 transition-all flex items-center justify-center gap-2"
+                                            className="w-full py-2 bg-carmine text-white rounded-lg font-bold text-[10px] shadow-md shadow-carmine/30 hover:bg-[#960018] active:scale-95 transition-all flex items-center justify-center gap-2"
                                         >
-                                            Claim Reward <Unlock size={12} />
+                                            Claim Reward <Unlock size={10} />
                                         </button>
                                     )}
                                 </div>

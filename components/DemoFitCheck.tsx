@@ -98,8 +98,8 @@ const DemoFitCheck: React.FC = () => {
                                             key={vibe}
                                             onClick={() => setSelectedVibe(vibe)}
                                             className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all backdrop-blur-md border ${selectedVibe === vibe
-                                                    ? 'bg-white text-black border-white'
-                                                    : 'bg-black/30 text-white border-white/30 hover:bg-black/50'
+                                                ? 'bg-white text-black border-white'
+                                                : 'bg-black/30 text-white border-white/30 hover:bg-black/50'
                                                 }`}
                                         >
                                             {vibe}
@@ -118,9 +118,9 @@ const DemoFitCheck: React.FC = () => {
 
                             <button
                                 onClick={takePhoto}
-                                className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center relative group shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                className="w-16 h-16 rounded-full border-4 border-white flex items-center justify-center relative group shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                             >
-                                <div className="w-16 h-16 bg-white rounded-full transform group-hover:scale-90 transition-transform duration-200"></div>
+                                <div className="w-12 h-12 bg-white rounded-full transform group-hover:scale-90 transition-transform duration-200"></div>
                             </button>
                         </div>
                     </>
@@ -196,11 +196,11 @@ const DemoFitCheck: React.FC = () => {
                                     <div className="absolute inset-0 bg-gradient-to-tr from-carmine/10 to-transparent"></div>
                                     <div className="relative z-10">
                                         <div className="flex items-center justify-center gap-2 text-carmine mb-1">
-                                            <Zap size={14} fill="currentColor" />
-                                            <span className="text-[10px] font-bold uppercase tracking-wider">Trybe Score</span>
+                                            <Zap size={12} fill="currentColor" />
+                                            <span className="text-[9px] font-bold uppercase tracking-wider">Trybe Score</span>
                                         </div>
-                                        <div className="text-5xl font-serif font-bold text-charcoal leading-none mb-1">98</div>
-                                        <div className="text-xs font-medium text-stone-500">"Fire Fit! 🔥"</div>
+                                        <div className="text-4xl font-serif font-bold text-charcoal leading-none mb-1">98</div>
+                                        <div className="text-[10px] font-medium text-stone-500">"Fire Fit! 🔥"</div>
                                     </div>
                                 </div>
                             </div>

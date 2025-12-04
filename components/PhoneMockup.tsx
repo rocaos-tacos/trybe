@@ -7,7 +7,7 @@ interface PhoneMockupProps {
 
 const PhoneMockup: React.FC<PhoneMockupProps> = ({ children, className = '' }) => {
   return (
-    <div className={`relative mx-auto border-stone-800 bg-stone-800 border-[8px] rounded-[2.5rem] h-[500px] w-[260px] md:h-[580px] md:w-[300px] shadow-2xl flex flex-col overflow-hidden ${className}`}>
+    <div className={`relative mx-auto border-stone-800 bg-stone-800 border-[8px] rounded-[2.5rem] h-[460px] w-[240px] md:h-[580px] md:w-[300px] shadow-2xl flex flex-col overflow-hidden ${className}`}>
       <div className="h-[32px] w-[3px] bg-stone-800 absolute -start-[11px] top-[72px] rounded-s-lg"></div>
       <div className="h-[46px] w-[3px] bg-stone-800 absolute -start-[11px] top-[124px] rounded-s-lg"></div>
       <div className="h-[46px] w-[3px] bg-stone-800 absolute -start-[11px] top-[178px] rounded-s-lg"></div>
