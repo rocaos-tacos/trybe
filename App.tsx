@@ -11,6 +11,7 @@ import FeatureCard from './components/FeatureCard';
 import LoginModal from './components/LoginModal';
 import EmailModal from './components/EmailModal';
 import ReviewsCarousel from './components/ReviewsCarousel';
+import DownloadButtons from './components/DownloadButtons';
 import { analytics } from './services/analytics';
 
 const App: React.FC = () => {
@@ -168,17 +169,12 @@ const App: React.FC = () => {
               Find clothes that <span className="italic text-carmine">fit</span>, faster.
             </h1>
             <p className="text-lg md:text-xl text-stone-600 font-light max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              Your personal shopping enhancer that leads you to the right fit, and the right people.
+              Your personal shopping enhancer that leads you to the right fit, and the community that shares your style.
               <span className="block mt-2 italic">Find your fit. Find your Trybe.</span>
             </p>
 
-            <div className="pt-2 flex justify-center lg:justify-start">
-              <button
-                onClick={() => handleCtaClick('hero')}
-                className="px-8 py-4 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2 text-lg"
-              >
-                Get Early Access <ArrowRight size={20} />
-              </button>
+            <div className="pt-4 flex justify-center lg:justify-start">
+              <DownloadButtons />
             </div>
           </div>
 
@@ -252,35 +248,13 @@ const App: React.FC = () => {
       {/* 3. REVIEWS CAROUSEL */}
       <ReviewsCarousel />
 
-      {/* NEW PREMIUM SECTION 1: Curated Shopping Paths */}
-      <section id="smart-routes" className="py-12 md:py-24 px-6 border-t border-stone-100 bg-white scroll-mt-20">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div className="order-2 md:order-1 flex justify-center">
-            <DemoSmartRoutes />
-          </div>
-          <div className="order-1 md:order-2 space-y-8">
-            <h2 className="text-3xl md:text-5xl font-serif text-charcoal leading-tight">Curated Shopping Paths</h2>
-            <p className="text-lg text-stone-600 font-light leading-relaxed">
-              Trybe builds a curated shopping path the moment you arrive. No wandering. No guessing. Just a route designed around your style, your budget, and your time.
-              <br /><br />
-              And if a piece doesn’t feel right, Trybe instantly guides you to the next best stop — the stores most likely to get you the fit you’re looking for.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => handleCtaClick('smart_routes')}
-                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
-              >
-                Join Waitlist <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* NEW PREMIUM SECTION 2: Fit Check */}
+      {/* NEW PREMIUM SECTION 1: Fit Check */}
       <section id="fit-check" className="py-12 md:py-24 px-6 bg-ivory scroll-mt-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
+          <div className="order-2 md:order-1 flex justify-center">
+            <DemoFitCheck />
+          </div>
+          <div className="order-1 md:order-2 space-y-8">
             <h2 className="text-3xl md:text-5xl font-serif text-charcoal leading-tight">Fit Check</h2>
             <p className="text-lg text-stone-600 font-light leading-relaxed">
               Snap a quick fitting-room photo — no face needed — and get honest feedback from people who dress like you.
@@ -296,8 +270,30 @@ const App: React.FC = () => {
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* NEW PREMIUM SECTION 2: Curated Shopping Paths */}
+      <section id="smart-routes" className="py-12 md:py-24 px-6 border-t border-stone-100 bg-white scroll-mt-20">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <h2 className="text-3xl md:text-5xl font-serif text-charcoal leading-tight">Curated Shopping Paths</h2>
+            <p className="text-lg text-stone-600 font-light leading-relaxed">
+              Trybe builds a curated shopping path the moment you arrive. No wandering. No guessing. Just a route designed around your style, your budget, and your time.
+              <br /><br />
+              And if a piece doesn’t feel right, Trybe instantly guides you to the next best stop — the stores most likely to get you the fit you’re looking for.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => handleCtaClick('smart_routes')}
+                className="px-8 py-3 rounded-full bg-carmine text-white font-medium hover:bg-[#7a0013] transition-colors shadow-lg shadow-red-900/10 flex items-center gap-2"
+              >
+                Join Waitlist <ArrowRight size={18} />
+              </button>
+            </div>
+          </div>
           <div className="flex justify-center">
-            <DemoFitCheck />
+            <DemoSmartRoutes />
           </div>
         </div>
       </section>
@@ -362,12 +358,7 @@ const App: React.FC = () => {
           <div className="space-y-6">
             <h2 className="text-4xl md:text-6xl font-serif">Ready to shop with clarity?</h2>
             <div className="max-w-md mx-auto pt-6 flex justify-center">
-              <button
-                onClick={() => handleCtaClick('footer')}
-                className="px-8 py-4 rounded-full bg-white text-charcoal font-bold hover:bg-stone-100 transition-colors shadow-lg flex items-center gap-2"
-              >
-                Stay Updated <ArrowRight size={20} />
-              </button>
+              <DownloadButtons className="justify-center" />
             </div>
           </div>
 
