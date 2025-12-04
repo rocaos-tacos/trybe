@@ -109,7 +109,7 @@ const DemoEarnRewards: React.FC = () => {
                         {rewards.map((reward, idx) => (
                             <div
                                 key={reward.id}
-                                className={`snap-center shrink-0 w-[85%] h-[240px] rounded-2xl p-4 flex flex-col justify-between shadow-lg transition-all duration-300 relative overflow-hidden ${reward.color} ${reward.status === 'locked' ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                                className={`snap-center shrink-0 w-[85%] h-[200px] rounded-2xl p-3 flex flex-col justify-between shadow-lg transition-all duration-300 relative overflow-hidden ${reward.color} ${reward.status === 'locked' ? 'opacity-60 grayscale-[0.5]' : ''}`}
                             >
                                 {reward.status === 'locked' && (
                                     <div className="absolute top-3 right-3 bg-stone-200/50 p-1.5 rounded-full backdrop-blur-sm">
