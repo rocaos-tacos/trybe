@@ -9,6 +9,7 @@ import DemoEarnRewards from './components/DemoEarnRewards';
 import AdminDashboard from './components/AdminDashboard';
 import FeatureCard from './components/FeatureCard';
 import LoginModal from './components/LoginModal';
+import SurveyPopup from './components/SurveyPopup';
 import EmailModal from './components/EmailModal';
 import ReviewsCarousel from './components/ReviewsCarousel';
 import DownloadButtons from './components/DownloadButtons';
@@ -18,6 +19,7 @@ const App: React.FC = () => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showSurvey, setShowSurvey] = useState(false);
   const [activeFeature, setActiveFeature] = useState('');
   const [scrollY, setScrollY] = useState(0);
 
@@ -27,6 +29,14 @@ const App: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Show survey after 2 seconds
+    const timer = setTimeout(() => {
+      setShowSurvey(true);
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -58,6 +68,7 @@ const App: React.FC = () => {
       {showAdmin && <AdminDashboard onClose={() => setShowAdmin(false)} />}
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
       {showEmailModal && <EmailModal onClose={() => setShowEmailModal(false)} featureId={activeFeature} />}
+      {showSurvey && <SurveyPopup onClose={() => setShowSurvey(false)} />}
 
       {/* HEADER */}
       <header className={`absolute top-0 left-0 w-full z-50 px-6 py-6 md:py-8 transition-all duration-500 ${isScrolled ? 'py-4 bg-white/80 backdrop-blur-md shadow-sm' : ''}`}>
