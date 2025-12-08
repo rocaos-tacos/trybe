@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { analytics, EmailEntry, AnalyticsEvent } from '../services/analytics';
-import { X, RefreshCw, Trash2, Download } from 'lucide-react';
+import { X, RefreshCw, Trash2, Download, BarChart2 } from 'lucide-react';
+import { questions } from './SurveyPopup';
 
 interface AdminDashboardProps {
     onClose: () => void;
@@ -8,7 +9,7 @@ interface AdminDashboardProps {
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const [stats, setStats] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'overview' | 'emails' | 'events'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'emails' | 'events' | 'survey'>('overview');
 
     const loadStats = async () => {
         const data = await analytics.getStats();
@@ -95,6 +96,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className={`py-4 px-4 text-sm font-bold border-b-2 transition-colors ${activeTab === 'events' ? 'border-carmine text-carmine' : 'border-transparent text-stone-400 hover:text-charcoal'}`}
                     >
                         Recent Events
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('survey')}
+                        className={`py-4 px-4 text-sm font-bold border-b-2 transition-colors ${activeTab === 'survey' ? 'border-carmine text-carmine' : 'border-transparent text-stone-400 hover:text-charcoal'}`}
+                    >
+                        Survey Results
                     </button>
                 </div>
 
@@ -208,6 +215,85 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             {stats.events.length === 0 && (
                                 <p className="text-center text-stone-400 italic p-8">No recent events.</p>
                             )}
+                        </div>
+                    )}
+
+                    {/* SURVEY TAB */}
+                    {activeTab === 'survey' && (
+                        <div className="space-y-6">
+                            {(() => {
+                                const surveyEvents = stats.events.filter((e: any) => e.name === 'survey_submitted');
+                                const totalResponses = surveyEvents.length;
+
+                                if (totalResponses === 0) {
+                                    return (
+                                        <div className="text-center py-12">
+                                            <div className="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <BarChart2 className="text-stone-400" size={32} />
+                                            </div>
+                                            <h3 className="text-xl font-serif text-charcoal mb-2">No Survey Responses Yet</h3>
+                                            <p className="text-stone-500">Wait for visitors to complete the popup survey.</p>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <>
+                                        <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex items-center justify-between">
+                                            <div>
+                                                <h3 className="text-stone-400 text-xs font-bold uppercase tracking-wider mb-1">Total Responses</h3>
+                                                <p className="text-3xl font-serif text-charcoal">{totalResponses}</p>
+                                            </div>
+                                            <div className="w-12 h-12 bg-carmine/10 rounded-full flex items-center justify-center text-carmine">
+                                                <BarChart2 size={24} />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-6">
+                                            {questions.map((q) => {
+                                                // Calculate stats for this question
+                                                const answers = surveyEvents.map((e: any) => e.data[q.id]).filter((a: any) => a !== undefined);
+                                                const avgScore = answers.reduce((a: number, b: number) => a + b, 0) / answers.length || 0;
+
+                                                const distribution = [1, 2, 3, 4, 5].map(score => ({
+                                                    score,
+                                                    count: answers.filter((a: number) => a === score).length
+                                                }));
+
+                                                return (
+                                                    <div key={q.id} className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                                                        <div className="flex justify-between items-start mb-4">
+                                                            <h4 className="font-medium text-charcoal text-lg">{q.text}</h4>
+                                                            <div className="bg-stone-100 px-3 py-1 rounded-full text-xs font-bold text-stone-600">
+                                                                Avg: {avgScore.toFixed(1)}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="space-y-2">
+                                                            {distribution.map((d) => (
+                                                                <div key={d.score} className="flex items-center gap-3 text-sm">
+                                                                    <div className="w-8 text-stone-500 font-medium">{d.score}</div>
+                                                                    <div className="flex-1 h-2 bg-stone-100 rounded-full overflow-hidden">
+                                                                        <div
+                                                                            className={`h-full rounded-full ${d.score >= 4 ? 'bg-green-500' : d.score === 3 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                                                                            style={{ width: `${(d.count / answers.length) * 100}%` }}
+                                                                        ></div>
+                                                                    </div>
+                                                                    <div className="w-8 text-right text-stone-400">{d.count}</div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                        <div className="flex justify-between mt-2 text-[10px] text-stone-400 uppercase tracking-wider">
+                                                            <span>Strongly Disagree</span>
+                                                            <span>Strongly Agree</span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
                     )}
 

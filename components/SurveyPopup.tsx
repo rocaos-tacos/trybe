@@ -6,7 +6,7 @@ interface SurveyPopupProps {
     onClose: () => void;
 }
 
-const questions = [
+export const questions = [
     {
         id: 'social_validation',
         text: 'I often send photos to friends for approval before buying clothes.',
