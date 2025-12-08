@@ -51,8 +51,8 @@ export const analytics = {
             const emailsSnapshot = await getDocs(query(collection(db, 'emails'), orderBy('timestamp', 'desc')));
             const emails = emailsSnapshot.docs.map(doc => doc.data() as EmailEntry);
 
-            // Fetch Recent Events (limit to last 100 to save reads)
-            const eventsSnapshot = await getDocs(query(collection(db, 'events'), orderBy('timestamp', 'desc'), limit(100)));
+            // Fetch All Events (Warning: This might get slow with thousands of events)
+            const eventsSnapshot = await getDocs(query(collection(db, 'events'), orderBy('timestamp', 'desc')));
             const events = eventsSnapshot.docs.map(doc => doc.data() as AnalyticsEvent);
 
             const eventCounts = events.reduce((acc, event) => {
