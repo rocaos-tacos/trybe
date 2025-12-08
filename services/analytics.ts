@@ -4,6 +4,7 @@ import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/fir
 export interface AnalyticsEvent {
     name: string;
     timestamp: number;
+    sessionId: string;
     data?: any;
 }
 
@@ -13,15 +14,19 @@ export interface EmailEntry {
     timestamp: number;
 }
 
+// Generate a random session ID for this page load
+const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
 export const analytics = {
     trackEvent: async (name: string, data?: any) => {
         try {
             await addDoc(collection(db, 'events'), {
                 name,
                 timestamp: Date.now(),
+                sessionId,
                 data: data || {}
             });
-            console.log(`[Analytics] Event tracked: ${name}`, data);
+            console.log(`[Analytics] Event tracked: ${name}`, { sessionId, ...data });
         } catch (e) {
             console.error('Failed to track event', e);
         }

@@ -32,6 +32,33 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Track Page View
+    analytics.trackEvent('page_view');
+
+    // Track Session Duration
+    const startTime = Date.now();
+    const handleUnload = () => {
+      const duration = (Date.now() - startTime) / 1000; // in seconds
+      analytics.trackEvent('session_end', { duration });
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+
+    // Also track when visibility changes (e.g. mobile tab switch)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        handleUnload();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
     // Show survey after 2 seconds
     const timer = setTimeout(() => {
       setShowSurvey(true);

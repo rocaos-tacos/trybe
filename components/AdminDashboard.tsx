@@ -109,6 +109,23 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                                 <p className="text-4xl font-serif text-charcoal">{stats.totalEmails}</p>
                             </div>
                             <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                                <h3 className="text-stone-400 text-xs font-bold uppercase tracking-wider mb-2">Total Visitors</h3>
+                                <p className="text-4xl font-serif text-charcoal">
+                                    {new Set(stats.events.filter((e: any) => e.name === 'page_view').map((e: any) => e.sessionId)).size}
+                                </p>
+                            </div>
+                            <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                                <h3 className="text-stone-400 text-xs font-bold uppercase tracking-wider mb-2">Avg Session</h3>
+                                <p className="text-4xl font-serif text-charcoal">
+                                    {(() => {
+                                        const sessions = stats.events.filter((e: any) => e.name === 'session_end' && e.data?.duration);
+                                        if (!sessions.length) return '0s';
+                                        const avg = sessions.reduce((acc: number, curr: any) => acc + curr.data.duration, 0) / sessions.length;
+                                        return `${Math.round(avg)}s`;
+                                    })()}
+                                </p>
+                            </div>
+                            <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
                                 <h3 className="text-stone-400 text-xs font-bold uppercase tracking-wider mb-2">Total Interactions</h3>
                                 <p className="text-4xl font-serif text-charcoal">{stats.totalEvents}</p>
                             </div>
